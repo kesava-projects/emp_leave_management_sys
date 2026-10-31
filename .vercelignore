@@ -1,0 +1,13 @@
+# Tests
+server/tests/
+client/src/tests/
+
+# Git & OS
+.git
+.DS_Store
+*.log
+
+# Environments
+.env
+.env.local
+.env.*.local

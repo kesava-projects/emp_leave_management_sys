@@ -157,6 +157,53 @@ All demo accounts use password: `Password123!`
 
 ---
 
+## ☁️ Deploy to Vercel
+
+The project is fully prepared for zero-configuration deployment to **Vercel** with the frontend static build and the backend running as serverless functions.
+
+### 1. Project Configuration Files Included
+- `vercel.json`: Configures client build (`npm run build --prefix client`), static output (`client/dist`), and serverless routing (`/api/*` -> `api/index.js`).
+- `api/index.js`: Serverless handler with MongoDB connection pooling and caching.
+- `.vercelignore`: Excludes tests, git, and log files.
+
+### 2. Required Environment Variables on Vercel
+In your Vercel Project Settings > **Environment Variables**, set:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `MONGO_URI` | MongoDB Atlas Connection String | `mongodb+srv://user:pass@cluster0.mongodb.net/leave_management?retryWrites=true&w=majority` |
+| `JWT_SECRET` | Secure Secret for signing JWTs | `a_long_random_secure_secret_key_here` |
+| `NODE_ENV` | Environment | `production` |
+
+### 3. Deploy Methods
+
+#### Option A: Deploy via GitHub (Recommended)
+1. Push your repository to GitHub.
+2. Go to [vercel.com/new](https://vercel.com/new) and import your repository.
+3. Keep default settings (`vercel.json` handles the build and routes automatically).
+4. Add the `MONGO_URI` and `JWT_SECRET` environment variables.
+5. Click **Deploy**.
+
+#### Option B: Deploy via Vercel CLI
+```bash
+# Install Vercel CLI if not installed
+npm i -g vercel
+
+# Deploy to preview
+vercel
+
+# Deploy to production
+vercel --prod
+```
+
+### 4. Seed Production Database (Atlas)
+To seed initial employees and leave types in your production MongoDB Atlas database:
+```bash
+MONGO_URI="mongodb+srv://user:pass@cluster0.mongodb.net/leave_management" npm run seed
+```
+
+---
+
 ## 🧪 Running Tests
 
 The test suite includes 44 backend tests (unit + integration with in-memory MongoDB) and 9 frontend tests (Vitest + React Testing Library).
