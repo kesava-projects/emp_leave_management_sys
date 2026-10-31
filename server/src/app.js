@@ -3,10 +3,21 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
+import { connectDB } from "./config/db.js";
 import apiRouter from "./routes/index.js";
 import { errorHandler } from "./middlewares/errorHandler.middleware.js";
 
 const app = express();
+
+// Ensure MongoDB connection for incoming requests
+app.use(async (_req, _res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Security headers
 app.use(helmet());
